@@ -1,14 +1,11 @@
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import {
   Outlet,
   Link,
   createRootRouteWithContext,
   useRouter,
-  HeadContent,
-  Scripts,
 } from "@tanstack/react-router";
+import { QueryClient } from "@tanstack/react-query";
 
-import appCss from "../styles.css?url";
 import { SmoothScroll } from "../components/SmoothScroll";
 import { Navbar } from "../components/site/Navbar";
 import { Footer } from "../components/site/Footer";
@@ -72,60 +69,14 @@ function ErrorComponent({ error, reset }: { error: Error; reset: () => void }) {
 }
 
 export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()({
-  head: () => ({
-    meta: [
-      { charSet: "utf-8" },
-      { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "PT SIS Samudera Indonesia Shakti — Maritime Licensing Consultant" },
-      {
-        name: "description",
-        content:
-          "Professional & trusted maritime licensing consultant in Indonesia. SIUPPAK, SIUPAL, SIUPKK, SIOPSUS — handled with precision and full regulatory compliance.",
-      },
-      { property: "og:title", content: "PT SIS Samudera Indonesia Shakti" },
-      {
-        property: "og:description",
-        content:
-          "Professional & trusted maritime licensing consultant for Indonesia's shipping industry.",
-      },
-      { property: "og:type", content: "website" },
-      { name: "twitter:card", content: "summary_large_image" },
-    ],
-    links: [
-      { rel: "stylesheet", href: appCss },
-      { rel: "preconnect", href: "https://fonts.googleapis.com" },
-      { rel: "preconnect", href: "https://fonts.gstatic.com", crossOrigin: "anonymous" },
-      {
-        rel: "stylesheet",
-        href: "https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap",
-      },
-    ],
-  }),
-  shellComponent: RootShell,
   component: RootComponent,
   notFoundComponent: NotFoundComponent,
   errorComponent: ErrorComponent,
 });
 
-function RootShell({ children }: { children: React.ReactNode }) {
-  return (
-    <html lang="en">
-      <head>
-        <HeadContent />
-      </head>
-      <body>
-        {children}
-        <Scripts />
-      </body>
-    </html>
-  );
-}
-
 function RootComponent() {
-  const { queryClient } = Route.useRouteContext();
-
   return (
-    <QueryClientProvider client={queryClient}>
+    <>
       <SmoothScroll />
       <div className="relative min-h-screen bg-background text-foreground">
         <Navbar />
@@ -135,6 +86,6 @@ function RootComponent() {
         <Footer />
         <FloatingButtons />
       </div>
-    </QueryClientProvider>
+    </>
   );
 }
